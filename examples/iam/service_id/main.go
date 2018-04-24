@@ -73,11 +73,17 @@ func main() {
 	}
 	serviceIdAPI := iamClient.ServiceIds()
 
-	boundTo := utils.GenerateBoundToCRN(*region, myAccount.GUID).String()
+	boundTo := utils.GenerateBoundToCRN(*region, myAccount.GUID)
+	boundTo.ServiceInstance = "Your service instance"
+	//bountTo.xxx = "yyy"
+	
+	// or even:
+	// import "github.com/IBM-Cloud/bluemix-go/crn"
+	// boundTo = crn.CRN{"crn", "v1", "bluemix", "public", "iam-identity", "", "Account", "a/def33143e88c5a38800d484f94bb644f", "", "", ""}
 
 	data := models.ServiceID{
 		Name:    serviceID,
-		BoundTo: boundTo,
+		BoundTo: boundTo.String(),
 		Description: "Your Description"
 	}
 	sID, err := serviceIdAPI.Create(data)
