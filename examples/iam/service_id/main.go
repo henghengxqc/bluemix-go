@@ -13,6 +13,7 @@ import (
 	"github.com/IBM-Cloud/bluemix-go/api/mccp/mccpv2"
 	"github.com/IBM-Cloud/bluemix-go/session"
 	"github.com/IBM-Cloud/bluemix-go/trace"
+	bluemixgo "github.com/IBM-Cloud/bluemix-go"
 )
 
 func main() {
@@ -29,7 +30,11 @@ func main() {
 	}
 
 	trace.Logger = trace.NewLogger("true")
-	sess, err := session.New()
+	
+	config := &bluemixgo.Config{
+	        BluemixAPIKey : "Your API key",
+	}
+	sess, err := session.New(config)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -73,6 +78,7 @@ func main() {
 	data := models.ServiceID{
 		Name:    serviceID,
 		BoundTo: boundTo,
+		Description: "Your Description"
 	}
 	sID, err := serviceIdAPI.Create(data)
 	if err != nil {
